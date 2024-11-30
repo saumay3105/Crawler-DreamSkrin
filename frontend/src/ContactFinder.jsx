@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './ContactFinder.css'
+
 const ContactFinder = () => {
   const [url, setUrl] = useState('');
   const [contacts, setContacts] = useState(null);
@@ -20,8 +21,11 @@ const ContactFinder = () => {
         body: JSON.stringify({ url }),
       });
 
+      if (!response.ok) {
+        throw new Error('Server returned an error');
+      }
+
       const data = await response.json();
-      console.log('Received data:', data);
       setContacts(data);
     } catch (error) {
       console.error('Error:', error);
@@ -31,13 +35,17 @@ const ContactFinder = () => {
     }
   };
 
-
-  console.log('Current contacts state:', contacts);
+  const LoadingSpinner = () => (
+    <div className="loading-spinner">
+      <div className="spinner"></div>
+      <span>Searching...</span>
+    </div>
+  );
 
   return (
     <div className="contact-finder-container">
       <div className="form-card">
-        <h2 className="form-title">Website Contact Finder</h2>
+        <h2 className="form-title">CrawlIt</h2>
         <form onSubmit={handleSubmit} className="form">
           <input
             type="url"
@@ -52,46 +60,57 @@ const ContactFinder = () => {
           </button>
         </form>
 
-        {error && (
-          <div className="error-message">
-            {error}
-          </div>
-        )}
+        {error && <div className="error-message">{error}</div>}
+
+        {loading && <LoadingSpinner />}
 
         {contacts && contacts.contactDetails && (
           <div className="contacts-section">
             <h3 className="contacts-title">Contact Information</h3>
-            <div className="contacts-grid">
-              <div className="contact-column">
-                <h4 className="column-title">Email Address</h4>
-                <div className="contact-item">
-                  {contacts.contactDetails.email || 'No email found'}
-                </div>
-              </div>
-              <div className="contact-column">
-                <h4 className="column-title">Phone Numbers</h4>
-                {contacts.contactDetails.phoneNumbers && 
-                 contacts.contactDetails.phoneNumbers.length > 0 ? (
-                  contacts.contactDetails.phoneNumbers.map((phone, index) => (
-                    <div key={index} className="contact-item">
-                      {phone}
-                    </div>
-                  ))
-                ) : (
-                  <div className="contact-item">No phone numbers found</div>
-                )}
-              </div>
+            <div className="table-container">
+              <table className="contact-table">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Details</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Email Address</td>
+                    <td>{contacts.contactDetails.email || 'No email found'}</td>
+                  </tr>
+                  <tr>
+                    <td>Phone Numbers</td>
+                    <td>
+                      {contacts.contactDetails.phoneNumbers &&
+                      contacts.contactDetails.phoneNumbers.length > 0
+                        ? contacts.contactDetails.phoneNumbers.map((phone, index) => (
+                            <div key={index}>{phone}</div>
+                          ))
+                        : 'No phone numbers found'}
+                    </td>
+                  </tr>
+                  {contacts.contactDetails.additionalContact && (
+                    <tr>
+                      <td>Additional Contact</td>
+                      <td>{contacts.contactDetails.additionalContact}</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
         )}
 
-        
-        <div className="debug-section" style={{ marginTop: '20px', textAlign: 'left' }}>
-          <p>Raw Response:</p>
-          <pre style={{ background: '#f5f5f5', padding: '10px', borderRadius: '4px' }}>
-            {JSON.stringify(contacts, null, 2)}
-          </pre>
-        </div>
+        {contacts && (
+          <div className="debug-section">
+            <details>
+              <summary>Show Raw Response</summary>
+              <pre>{JSON.stringify(contacts, null, 2)}</pre>
+            </details>
+          </div>
+        )}
       </div>
     </div>
   );
