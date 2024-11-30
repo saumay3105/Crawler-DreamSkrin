@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import './ContactFinder.css'
 const ContactFinder = () => {
   const [url, setUrl] = useState('');
   const [contacts, setContacts] = useState(null);
