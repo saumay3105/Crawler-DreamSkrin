@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-GEMINI_API_KEY = 'AIzaSyBYKJmcss0_ESlLD0i3veYFmv9YhjXsaQc'
+
 # Application definition
 CORS_ALLOW_CREDENTIALS = True
 INSTALLED_APPS = [

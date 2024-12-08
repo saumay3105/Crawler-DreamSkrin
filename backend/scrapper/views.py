@@ -27,7 +27,7 @@ async def extract_contacts(url):
 
 def process_with_gemini(text):
     try:
-        genai.configure(api_key=settings.GEMINI_API_KEY)
+        genai.configure(api_key=os.environ["GEMINI_API_KEY"])
         model = genai.GenerativeModel("gemini-1.5-flash")
         
         llm_prompt = f"""
