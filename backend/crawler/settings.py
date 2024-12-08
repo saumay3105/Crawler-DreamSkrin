@@ -29,7 +29,7 @@ ALLOWED_HOSTS = []
 
 GEMINI_API_KEY = 'AIzaSyBYKJmcss0_ESlLD0i3veYFmv9YhjXsaQc'
 # Application definition
-
+CORS_ALLOW_CREDENTIALS = True
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,6 +43,8 @@ INSTALLED_APPS = [
 ]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "http://localhost:4173",
+    "https://crawler-dream-skrin.vercel.app",
 ]
 MIDDLEWARE = [
      'corsheaders.middleware.CorsMiddleware',
