@@ -13,7 +13,7 @@ const ContactFinder = () => {
     setError(null);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/extract-contacts/', {
+      const response = await fetch('https://crawler-dreamskrin.onrender.com/extract-contacts/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
