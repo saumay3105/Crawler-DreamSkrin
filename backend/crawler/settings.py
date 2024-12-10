@@ -26,10 +26,7 @@ SECRET_KEY = "django-insecure-#8e76wh!!4p5+6h&1s47629!=1!l7tmjm8vj2ix7_1rcdqnm1p
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
     "crawler-dreamskrin.onrender.com",
-    "crawler-dream-skrin.vercel.app"
 ]
 
 
